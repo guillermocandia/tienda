@@ -1,0 +1,19 @@
+{% extends "tienda/base.html" %}
+{% block content %}
+<div class="product-section">
+	 <div class="product-section-title">
+        <span>REGISTRO</span>
+     </div>
+     <p>
+     	Si ya tienes una cuenta, ingresa acá: <a href="{{ login_url }}">Ingresar</a>
+     </p>
+     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  	{% csrf_token %}
+	{{ form.as_p }}
+  	{% if redirect_field_value %}
+  	<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  	{% endif %}
+  	<button type="submit">Registrarse</button>
+</form>
+</div>            
+{% endblock %}

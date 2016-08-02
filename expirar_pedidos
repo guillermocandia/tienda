@@ -1,0 +1,4 @@
+#! /bin/bash
+source /home/admin/tienda/bin/activate
+python /var/www/tienda/manage.py expirar_pedidos 7
+python /var/www/tienda/manage.py expirar_pedidos 7

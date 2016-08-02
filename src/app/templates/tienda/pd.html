@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load tienda_filters %}
+{% for product in product_list %}
+<li>
+<div class="product-section">
+	
+<div class="product-detail-l">
+	<a href="http://{{ request.META.HTTP_HOST }}{% url 'product' product.slug product.id  %}">
+	{% if product.first_image %}
+	<img src="{{ product.first_image.file.url }}" alt="{{ product.first_image.name }}" title="{{ product.first_image.name }}">
+    {% else %}
+    <img src="{% static "images/logo.png" %}" alt=" " title=></span>
+    {% endif %}
+    </a>
+</div>
+<div class="product-detail-r" class="r2">
+	<div class="product-name">{{ product.name }}</div>
+	<div class="product-name">{{ product.shortdescription }}</div>
+	<div class="product-price {% if product.discount_price > 0 %}have-discount{% endif %}">Precio: <span>{{ product.price|pf }}</span></div>
+    <div class="product-discount">{% if product.discount_price > 0 %}Precio oferta: <span>{{ product.discount_price|pf }}</span>{% endif %}</div>
+    <div class="product-description">
+    {{ product.longdescription|safe }}
+    </div> 
+    <a class="add" href="http://{{ request.META.HTTP_HOST }}{% url 'product' product.slug product.id  %}">Ver en Tienda</a>
+    </div>
+</div>
+</div>
+</li>
+{% endfor %}

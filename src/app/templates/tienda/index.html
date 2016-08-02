@@ -1,0 +1,45 @@
+{% extends "tienda/base.html" %}
+{% load staticfiles %}
+{% load tienda_filters %}
+{% block content %}
+	{% if product_list|length > 0 %}
+	<div class="product-section">
+	 	<div class="product-section-title">
+        	<span>PRODUCTOS</span>
+      	</div>
+      	{% for product in product_list %}
+      	<div class="product">
+			<div class="product-info" data-id="{{ product.id }}">
+            	<a class="get-product" href="{% url 'product' product.slug product.id %}">
+            		{% if product.first_image %}
+           			<img src="{{ product.first_image.thumbnail.url }}" alt="{{ product.first_image.name }}" title="{{ product.first_image.name }}">
+               		{% else %}
+               		<img src="{% static "images/logo.png" %}" alt=" " title=" "></span>
+               		{% endif %}
+               	</a> 
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-price {% if product.discount_price > 0 %}have-discount{% endif %}">Precio: <span>{{ product.price|pf }}</span></div>
+                <div class="product-discount">{% if product.discount_price > 0 %}Precio oferta: <span>{{ product.discount_price|pf }}</span>{% endif %}</div>
+                <a class="minus" href="#">-</a>
+                <input type="text" class="quantity-input" value="1">
+                <a class="plus" href="#">+</a>
+                {% if  product.active == False %}
+    			<a class="add not-active" href="{% url 'cart_add_item' product.id '00' %}">No disponible</a>
+    			{% elif product.stock <= 0 %}
+    			<a class="add not-active" href="{% url 'cart_add_item' product.id '00' %}">Agotado</a>
+    			{% else %}
+    			<a class="add" href="{% url 'cart_add_item' product.id '00' %}">Agregar al carro</a>
+    			{% endif %}
+     		</div>
+        </div>
+      	{% endfor %}
+    </div>            
+	{% endif %}
+	{% if product_list|length = 0 %}
+	<div class="product-section">
+	 	<div class="product-section-title">
+        	<span>No se encontraron productos</span>
+      	</div>
+    </div> 
+	{% endif %}
+{% endblock content %}

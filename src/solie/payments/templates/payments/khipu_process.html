@@ -1,0 +1,19 @@
+{% extends "payments/base.html" %}
+{% block content %}
+<div class="product-section">
+ 	<div class="product-section-title">
+       	<span>PAGO POR KHIPU</span>
+  	</div>
+  	<div class="info">
+  		<p>
+			Su pago esta siendo verificado en estos momentos, se le notificará mediante un correo electrónico a
+			<span>{{ order.email }}</span> una vez que haya sido verificado.
+		</p>
+		<p>
+			También puede verificar el estado de su pedido en el siguiente enlace:
+			<br>
+			<a href="{% url 'tienda.views.order' order.uuid %}">Ver estado de pedido</a>
+		</p>
+  	</div>
+</div>
+{% endblock content %}

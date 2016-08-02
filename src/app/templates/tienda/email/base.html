@@ -1,0 +1,135 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<style>
+.product-section {
+    display: block;
+    float: none;
+    clear: both;
+    width: 600px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    overflow: auto;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin: 0 auto 0 auto;
+}
+
+.product-section-title {
+    display: block;
+    float: none;
+    clear: both;
+    width: 600px;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #441900;
+}
+
+ .product-section-title span {
+    display: block;
+    height: 24px;
+    padding-top: 6px;
+    font-size: 16px;
+    margin-left: 20px;
+    color: #441900;
+}
+
+table#checkout-cart {
+    display: block;
+    margin-top: 10px;
+    width: 580px;
+    margin-left: 10px;
+}
+
+table#checkout-cart thead tr th td {
+    text-align: center;
+}
+
+table#checkout-cart thead tr th:nth-child(1) {
+    width: 250px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+table#checkout-cart thead tr th:nth-child(2),
+table#checkout-cart thead th:nth-child(3),
+table#checkout-cart thead th:nth-child(4) {
+    width: 110px;
+}
+
+table#checkout-cart tbody tr td:nth-child(1) {
+    text-align: left;
+    padding-left: 10px;
+}
+
+table#checkout-cart tbody tr td:nth-child(2),
+table#checkout-cart tbody tr td:nth-child(3),
+table#checkout-cart tbody tr td:nth-child(4),
+table#checkout-cart tfoot tr td:nth-child(1),
+table#checkout-cart tfoot tr td:nth-child(2) {
+    text-align: right;
+    padding-right: 10px;
+}
+
+table#checkout-cart tfoot tr td:nth-child(1),
+table#checkout-cart tfoot tr td:nth-child(2) {
+    font-weight: bolder;
+}
+
+table#checkout-cart th,
+table#checkout-cart td{
+    height: 30px;
+    font-size: 16px;
+    background-color: white;
+}
+
+table#checkout-cart .price-value-discount {
+    color: red;
+}
+
+table.order {
+    display: block;
+    margin-top: 10px;
+    width: 580px;
+    margin-left: 10px;
+}
+
+table.order tbody tr td:nth-child(1),
+table.order tbody tr td:nth-child(2) {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.info {
+    display: block;
+    margin-top: 10px;
+    width: 580px;
+    margin-left: 10px;
+}
+
+.info p {
+    text-align: justify;
+}
+
+.info span {
+    color: #441900;
+}
+
+.email {
+	/*background-image : url({% static 'images/fondo.jpeg'%});*/
+}
+</style>
+<div class="email">
+{% block content %}
+{% endblock content  %}
+</div>
+</body>
+</html>

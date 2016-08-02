@@ -1,0 +1,27 @@
+{% extends "payments/base.html" %}
+{% load staticfiles %}
+{% load tienda_filters %}
+{% block cart %}
+{% endblock cart %}
+{% block content %}
+<div class="product-section">
+    	<div class="product-section-title">
+        	<span>Transacción Fracasada</span>
+      	</div>
+      	<div class="info">
+  			{% if TBK_ORDEN_COMPRA %}
+  			<p>
+			Número de pedido: {{ TBK_ORDEN_COMPRA }}
+			</p>
+			{% endif %}
+			<p>
+			<p>
+			Las posibles causas de este rechazo son: <br>
+			Error en el ingreso de los datos de su tarjeta de crédito o debito (fecha y/o código de seguridad).<br>
+			Su tarjeta de crédito o debito no cuenta con el cupo necesario para cancelar la compra.<br>
+			Tarjeta aún no habilitada en el sistema financiero.<br> 
+			</p>
+  		</div>
+	</div>             
+{% endblock content %}
+

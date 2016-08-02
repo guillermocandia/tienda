@@ -1,0 +1,38 @@
+{% load tienda_filters %}
+<div id="cart-title">
+	<span>CARRO DE COMPRA</span>
+</div>
+{% if cart.get_items %}
+	{% for item in cart.get_items %}
+<div class="item">
+    <span class="name">{{ item.product.name }}</span>
+    <div>
+        <span class="price">Precio:</span>
+        {% if item.product.discount_price > 0 %}
+        <span class="price-value price-value-discount">{{ item.product.discount_price|pf }}</span>
+        {% else %}
+        <span class="price-value">{{ item.product.price|pf }}</span>
+        {% endif %}
+        
+    </div>                                  
+    <div>
+    <span class="quantity">Cantidad:</span>
+    	<span class="quantity-value">
+        <a class="plus" href="{% url 'cart_add_item' item.product.id '1' %}">+</a>                                   
+        <input type="text" class="cart-quantity-input" data-href="{% url 'cart_update_item' item.id '00' %}" value="{{ item.quantity }}">
+        <a class="minus" href="{% url 'cart_sub_item' item.id '1' %}">-</a>
+    </span>      
+	</div>
+	<a class="delete" href="{% url 'cart_delete_item' item.id %}">Eliminar</a>
+</div>		
+	{% endfor %}
+<div id="cart-total">
+	<span id="cart-total-text">Total: </span>
+	<span id="cart-total-value">{{ cart.get_total|pf }}</span> 
+    <a class="check-out" href="{% url 'checkout' %}">Pagar</a>
+</div>
+{% else %}
+<div class="item">
+    <span class="name">Carro vacío</span>
+</div>
+{% endif %}

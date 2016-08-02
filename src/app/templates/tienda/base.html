@@ -1,0 +1,194 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tienda ejemplo</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="{% block description %}{% endblock description %}">
+		<meta name="keywords" content="{% block keywords %}{% endblock keywords %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static "css/base.css" %}?v=20150409">
+        <script src="{% static "js/jquery/jquery.js" %}"></script>
+        <script src="{% static "js/jquery/jquery.validate.min.js" %}"></script>
+        <script src="{% static "js/base.js" %}?v=20150512"></script> 
+        {% block fb-og %}
+        <meta property="fb:app_id" content="" /> 
+		<meta property="og:type" content="product" /> 
+		<meta property="og:url" content="http://www.ejemplo.com" /> 
+		<meta property="og:title" content="Tienda" /> 
+		<meta property="og:image" content="{% static "images/logo.png" %}" />  
+    	<meta property="og:site_name" content="Tienda" />
+    	<meta property="og:description" content="" />
+    	{% endblock fb-og %}
+    </head>
+    <body>
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=000000000000000&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+        <div id="wrapper">
+            <header>
+                <div id="title">
+                	<a href="//www.ejemplo.com" title="ejemplo">
+                    	<span>ejemplo</span>
+                    	<span><img src="{% static "images/logo.png" %}" alt="ejemplo" title="ejemplo"></span>
+                    	<span>Group</span>
+                    </a>
+                    <div id="title-slogan">
+                        Slogan . Slogan . Slogan
+                    </div>
+                </div>
+                <div id="title-right">
+                    <div id="title-social">
+                        <a href="https://www.facebook.com/ejemplo.Chile" title="" target="_blank"><img src="{% static "images/logo_facebook.png" %}" alt=""></a>
+                        <a href="https://vine.co/u/xxxxxxxxxxxxxxxxxxx" title="" target="_blank"><img src="{% static "images/logo_vine.png" %}" alt=""></a>
+                        <a href="https://www.youtube.com/channel/xxxxxxxxx/feed?view_as=public" title="" target="_blank"><img src="{% static "images/logo_youtube.png" %}" alt=""></a>
+                        <a href="https://twitter.com/ejemplo" title="" target="_blank"><img src="{% static "images/logo_twitter.png" %}" alt=""></a>
+                        <a href="https://instagram.com/ejemplo/" title="" target="_blank"><img src="{% static "images/logo_instagram.png" %}" alt=""></a>
+                        <a href="https://plus.google.com/xxxxxxx/about" title="" target="_blank"><img src="{% static "images/logo_googleplus.png" %}" alt=""></a>
+                    </div>
+                    <div id="title-search">       
+                        <textarea id="search-text" max-length="64">{% block search_text %}{% endblock search_text %} </textarea>
+                        <a href="{% url 'search' '00' %}" id="search-button" title="">BUSCAR</a> 
+                    </div>
+                    <div id="title-info">
+                    	<a href="http://www.ejemplo.com/como-comprar">¿CÓMO COMPRAR?</a> . <a href="http://www.ejemplo.com/quienes-somos">QUIÉNES SOMOS</a> . <a href="http://www.ejemplo.com/contacto">CONTACTO</a>
+                    </div>
+                </div>
+                <nav id="title-nav">
+                    <ul>
+                    <li><a href="http://www.ejemplo.com">HOME</a></li>
+                    <li><a href="#">TIENDA ONLINE</a>
+                    <ul>
+						<li><a href="http://tienda.ejemplo.com">TIENDA</a></li>
+						<li><a href="http://c.ejemplo.com">TIENDA</a></li>
+               		</ul>
+               		</li>
+                    <li><a href="http://a.cl">ASESORIA</a></li>
+                    <li><a href="http://c.blogspot.com/">CENTRO</a></li>
+                    <li><a href="http://d.blogspot.com/">OTRA</a></li>
+                    <li><a href="http://ejemplo.blogspot.com/" target="_blank">AYUDA</a></li>
+                    <li><a href="http://www.ejemplo.com/suscursales">SUCURSALES</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <div id="main">
+                <div id="left">
+                    {% block category-list %}
+                    <div id="category-list">
+                    	<div class="category-item">
+                         	<a href="{% url 'index' %}">TODOS LOS PRODUCTOS</a>
+                        </div>
+                    	<div class="category-item">
+                         	<a href="{% url 'product_discount' %}">PRODUCTOS EN OFERTA</a>
+                        </div>
+                        <div class="category-item">
+                         	<a href="{% url 'product_show_in_home' %}">PRODUCTOS DESTACADOS</a>
+                        </div>
+                        {% for category in category_list %}
+    					<div class="category-item">
+                         	<a href="{% url 'category' category.slug category.id %}">{{ category.name.upper }}</a>
+                        </div>
+						{% endfor %}
+						<div class="category-item">
+                         	<a href="http://www.ejemplo.com">CANASTA</a>
+                        </div>
+                    </div>
+                    {% endblock category-list %}
+                </div>
+                <div id="center">
+                {% block info %}
+                <div class="product-section">
+	 				<div class="product-section-title">
+        			<span>ejemplo (DESPACHAMOS A DOMICILIO A TODO CHILE)</span>
+      				</div>
+      				<div class="info">
+  						<p>
+  						<span>Bienvenido a la Tienda ejemplo.</span>
+  						</p>
+  						<p>
+  						Nos especializamos en ...<span></span><span></span> 
+  						</p>
+  					</div>
+   				</div>
+    			{% endblock info %}
+					{% block content %}
+					{% endblock content %}
+                </div>
+                <div id="right">
+					{% block cart %}
+					<div id="cart">
+					</div>
+					{% endblock cart %}
+                </div>
+            </div>
+            <footer>
+                <div id="footer-1">
+                    <div id="footer-nav">
+                        <div class="footer-sucursal">
+                           	<span>TIENDA</span>
+                           	<br>
+                           	<br>
+                           	<br>
+                        </div>
+                        
+                        <div class="footer-sucursal">
+                            <span></span>
+                            <br>S
+                            <br><br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                    <div id="footer-social">
+                        <div class="fb-like-box" data-href="https://www.facebook.com/ejemploChile" data-colorscheme="dark" data-show-faces="false" data-header="true" data-stream="false" data-show-border="false" data-width="200"></div>
+                    	<br><br>
+                	<a class="twitter-follow-button"
+  						href="https://twitter.com/ejemplo" 
+  						data-show-count="false"
+  						data-lang="es"
+  						data-width="160px"
+  						data-align="right"
+  						data-size="medium">
+						Seguir @ejemplo
+					</a>
+					<script>window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
+                    </div>
+                    <div id="footer-info">
+                        <h1>ATENCIÓN A  ejemplo</h1>
+                        <p>
+                            <span>info@ejemplo.com</span><br>
+                            Oficina Central: (032) 000 0000<br>
+                            Movil: +56 9 0000 0000<br>
+                            Lunes a viernes  9:00 a 14:00 hrs.
+                        </p>
+                    </div>
+                </div>
+                <div id="footer-2">
+                    <p>
+                    <a href="http://www.ejemplo.com">www.ejemplo.com</a>
+                    <span>.</span>
+                    <a href="mailto:info@ejemplo.com">info@ejemplo.com</a>
+                    <span>.</span>
+                    <a href="https://www.facebook.com/ejemplo.Chile">www.facebook.com/ejemplo.Chile</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+        <div id="product-detail">
+        </div>
+        <div id="product-detail-wrapper">
+
+        </div>
+        {% if aviso %}
+        <div id="aviso">
+        	{{ aviso }}
+        </div>
+        {% endif %}
+    </body>
+</html>

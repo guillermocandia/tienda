@@ -1,0 +1,68 @@
+{% extends "tienda/base.html" %}
+{% load tienda_filters %}
+{% load mathfilters %}
+{% block cart %}
+{% endblock cart %}
+{% block info %}
+{% endblock info %}
+{% block content %}
+{% if cart %}
+	<div class="product-section">
+	 	<div class="product-section-title">
+        	<span>CARRO DE COMPRAS</span>
+      	</div>
+      	<table id="checkout-cart">
+      		<thead>
+      			<tr>
+      				<th>Producto</th>
+      				<th>Cantidad</th>
+      				<th>Precio Unitario</th>
+      				<th>Subtotal</th>
+      			</tr>
+      		</thead>
+      		<tfoot>
+      		<tr>
+      			<td colspan="3">Total:</td>
+      			<td>{{ cart.get_total|pf }}</td>
+      		<tr>
+      		</tfoot>
+      		<tbody>
+      			{% for item in cart.get_items %}
+      			<tr>
+      				<td>{{ item.product.name }}</td>
+      				<td>{{ item.quantity }}</td>
+      				{% if item.discount_price > 0 %}
+      				<td class="price-value-discount">{{ item.discount_price|pf }}</td>
+      				<td>{{ item.discount_price|mul:item.quantity|pf }}</td>
+      				{% else %}
+      				<td>{{ item.price|pf }}</td>
+      				<td>{{ item.price|mul:item.quantity|pf }}</td>
+      				{% endif %}
+      			</tr>
+      			{% endfor %}
+      	</tbody>
+      	</table>
+      	<div class="info">
+  			<p>
+			<span>IMPORTANTE:</span> El despacho es por pagar al momento de recibir el producto .
+			</p>
+  		</div>
+    </div>
+    <div class="product-section">
+    	<div class="product-section-title">
+        	<span>DATOS DE ENTREGA</span>
+      	</div>
+   	 	<form id="checkout-form" action="{% url 'checkout' %}" method="POST">
+    		{% csrf_token %}
+    		{{ form.as_p  }}
+    		<input type="submit" value="Confirmar pedido" />
+		</form>
+	</div>
+    {% else %}
+    <div class="product-section">
+	 	<div class="product-section-title">
+        	<span>CARRO VACÍO</span>
+      	</div>
+    </div>                  
+{% endif %}
+{% endblock content %}

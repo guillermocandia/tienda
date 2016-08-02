@@ -1,0 +1,136 @@
+{% extends "tienda/email/base.html" %}
+{% load tienda_filters %}
+{% load mathfilters %}
+{% block content %}
+<div class="product-section">
+	<div class="product-section-title">
+    	<span>PEDIDO {{ order.id }} TIENDA</span>
+  	</div>
+	<div class="info">
+		<p>
+		Se ha generado un nuevo pedido a su nombre.<br>
+		Puede revisar la información de su pedido en el siguiente enlace:<br>
+		<a href="http://{{ request.get_host }}{% url 'order' order.uuid %}">http://{{ request.get_host }}{% url 'order' order.uuid %}</a>
+		</p>
+	</div>
+</div>
+<div class="product-section">
+	<div class="product-section-title">
+    	<span>INFORMACIÓN PEDIDO</span>
+  	</div>
+   	 	<table class="order">
+  		<tbody>
+  			<tr>
+  				<td>Número de pedido:</td>
+  				<td>{{ order.id }}</td>
+  			</tr>
+  			<tr>
+  				<td>Creado:</td>
+  				<td>{{ order.created }}</td>
+  			</tr>
+  			<tr>
+  				<td>Monto:</td>
+  				<td>{{ order.amount|pf }}</td>
+  			</tr>
+  			<tr>
+  				<td>Pagado:</td>
+  				<td>{% if order.paid %}{{ order.paid }}{% else %}No{% endif %}</td>
+  			</tr>
+  			<tr>
+  				<td>Enviado:</td>
+  				<td>{% if order.delivered %}{{ order.delivered }}{% else %}No{% endif %}</td>
+  			</tr>	
+  			<tr>
+  				<td>Método de pago:</td>
+  				<td>{% if order.payment_method %}{{ order.get_payment_method_display }}{% endif %}</td>
+  			</tr>
+  			<tr>
+      			<td>Número de despacho:</td>
+      			<td>{% if order.numero_despacho %}{{ order.numero_despacho }}{% endif %}</td>
+      		</tr>
+      		<tr>
+      			<td>Comentarios:</td>
+      			<td>{% if order.comentarios %}{{ order.comentarios }}{% endif %}</td>
+      		</tr>
+  		</tbody>
+  	</table>
+  	<div class="info">
+  			<p>
+			<span>IMPORTANTE:</span> El despacho es por pagar al momento de recibir el producto (Turbus Cargo).
+			</p>
+  	</div>
+</div>
+<div class="product-section">
+	<div class="product-section-title">
+    	<span>DATOS DE ENTREGA</span>
+  	</div>
+   	 	<table class="order">
+  		<tbody>
+  			<tr>
+  				<td>Nombre:</td>
+  				<td>{{ order.name }}</td>
+  			</tr>
+  			<tr>
+  				<td>Correo electrónico:</td>
+  				<td>{{ order.email }}</td>
+  			</tr>
+  			<tr>
+  				<td>Teléfono fijo</td>
+  				<td>{{ order.phone }}</td>
+  			</tr>
+  			<tr>
+  				<td>Teléfono móvil:</td>
+  				<td>{{ order.mobile }}</td>
+  			</tr>
+  			<tr>
+  				<td>Dirección de entrega:</td>
+  				<td>{{ order.address0 }}</td>
+  			</tr>
+  			<tr>
+  				<td>Comuna:</td>
+  				<td>{{ order.city }}</td>
+  			</tr>
+  			<tr>
+  				<td>Región:</td>
+  				<td>{{ order.region }}</td>
+  			</tr>
+  		</tbody>
+  	</table>
+</div>
+<div class="product-section">
+ 	<div class="product-section-title">
+    	<span>CARRO DE COMPRAS</span>
+  	</div>
+  	<table id="checkout-cart">
+      		<thead>
+      			<tr>
+      				<th>Producto</th>
+      				<th>Cantidad</th>
+      				<th>Precio Unitario</th>
+      				<th>Subtotal</th>
+      			</tr>
+      		</thead>
+      		<tfoot>
+      		<tr>
+      			<td colspan="3">Total:</td>
+      			<td>{{ order.cart.get_total|pf }}</td>
+      		<tr>
+      		</tfoot>
+      		<tbody>
+      			{% for item in order.cart.get_items %}
+      			<tr>
+      				<td>{{ item.product.name }}</td>
+      				<td>{{ item.quantity }}</td>
+      				{% if item.discount_price > 0 %}
+      				<td class="price-value-discount">{{ item.discount_price|pf }}</td>
+      				<td>{{ item.discount_price|mul:item.quantity|pf }}</td>
+      				{% else %}
+      				<td>{{ item.price|pf }}</td>
+      				<td>{{ item.price|mul:item.quantity|pf }}</td>
+      				{% endif %}
+      			</tr>
+      			{% endfor %}
+      	</tbody>
+      	</table>
+</div>
+{% endblock content %}

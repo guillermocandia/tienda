@@ -1,0 +1,65 @@
+{% extends "payments/base.html" %}
+{% load staticfiles %}
+{% load tienda_filters %}
+{% load mathfilters %}
+{% block content %}
+<div class="product-section">
+	<div class="product-section-title">
+    	<span>CARRO DE COMPRAS</span>
+	</div>
+    <table id="checkout-cart">
+      		<thead>
+      			<tr>
+      				<th>Producto</th>
+      				<th>Cantidad</th>
+      				<th>Precio Unitario</th>
+      				<th>Subtotal</th>
+      			</tr>
+      		</thead>
+      		<tfoot>
+      		<tr>
+      			<td colspan="3">Total:</td>
+      			<td>{{ order.cart.get_total|pf }}</td>
+      		<tr>
+      		</tfoot>
+      		<tbody>
+      			{% for item in order.cart.get_items %}
+      			<tr>
+      				<td>{{ item.product.name }}</td>
+      				<td>{{ item.quantity }}</td>
+      				{% if item.discount_price > 0 %}
+      				<td class="price-value-discount">{{ item.discount_price|pf }}</td>
+      				<td>{{ item.discount_price|mul:item.quantity|pf }}</td>
+      				{% else %}
+      				<td>{{ item.price|pf }}</td>
+      				<td>{{ item.price|mul:item.quantity|pf }}</td>
+      				{% endif %}
+      			</tr>
+      			{% endfor %}
+      	</tbody>
+    </table>
+	<div class="info">
+  		<p>
+			<form action="{{ url_cgi }}" name="webpay" id="webpay" method="post">
+			<input type="hidden" name="TBK_TIPO_TRANSACCION" value="{{ payment.TBK_TIPO_TRANSACCION }}"/>
+			<input type="hidden" name="TBK_MONTO" value="{{ payment.TBK_MONTO }}"/>
+			<input type="hidden" name="TBK_ORDEN_COMPRA" value="{{ payment.TBK_ORDEN_COMPRA }}"/>
+			<input type="hidden" name="TBK_ID_SESION" value="{{ payment.TBK_ID_SESION }}"/>
+			<input type="hidden" name="TBK_URL_EXITO" value="{{ url_exito }}"/>
+			<input type="hidden" name="TBK_URL_FRACASO" value="{{ url_fracaso }}"/>
+			<input type="submit" value="Pagar con Webpay."/><br>
+			<a id="pagar" href=""><img src="{% static "images/boton_webpay.jpeg"  %}" alt="Pague con Webpay"></a>
+			</form>
+		</p>
+  	</div>
+</div>
+<script>
+$(document).ready(function() {
+	$('#pagar').click(function(){
+		$('#webpay').submit();
+		return false;
+	});
+});
+</script>
+{% endblock content %}
+

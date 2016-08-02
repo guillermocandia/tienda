@@ -1,0 +1,26 @@
+{% extends "tienda/email/base.html" %}
+{% load tienda_filters %}
+{% load mathfilters %}
+{% block content %}
+<div class="product-section">
+	<div class="product-section-title">
+    	<span>MENSAJE DE CONTACTO</span>
+  	</div>
+   	 	<table class="order">
+  		<tbody>
+  			<tr>
+  				<td>Nombre:</td>
+  				<td>{{ name }}</td>
+  			</tr>
+  			<tr>
+  				<td>Correo electrónico:</td>
+  				<td>{{ email }}</td>
+  			</tr>
+  			<tr>
+  				<td>Mensaje:</td>
+  				<td>{{ msg }}</td>
+  			</tr>
+  		</tbody>
+  	</table>
+</div>
+{% endblock content %}

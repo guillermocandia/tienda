@@ -1,0 +1,34 @@
+{% load tienda_filters %}
+{% load staticfiles %}
+<div id="product-detail-close" title="Cerrar">X</div>
+<div id="product-detail-l">
+	{% if product.first_image %}
+	<img src="{{ product.first_image.file.url }}" alt="{{ product.first_image.name }}" title="{{ product.first_image.name }}" alt="">
+    {% else %}
+    <img src="{% static "images/logo.png" %}" alt=" " title=" "></span>
+    {% endif %}
+</div>
+<div id="product-detail-r">
+	<div class="product-name">{{ product.name }}</div>
+	<div class="product-name">{{ product.shortdescription }}</div>
+	<div class="product-price {% if product.discount_price > 0 %}have-discount{% endif %}">Precio: <span>{{ product.price|pf }}</span></div>
+    <div class="product-discount">{% if product.discount_price > 0 %}Precio oferta: <span>{{ product.discount_price|pf }}</span>{% endif %}</div>
+	<a class="minus" href="minus">-</a>
+    <input type="text" name="id" id="id" value="1">
+    <a class="plus" href="plus">+</a>
+    {% if  product.active == False %}
+    			<a class="add not-active" href="{% url 'cart_add_item' product.id '00' %}">No disponible</a>
+    			{% elif product.stock <= 0 %}
+    			<a class="add not-active" href="{% url 'cart_add_item' product.id '00' %}">Agotado</a>
+    			{% else %}
+    			<a class="add" href="{% url 'cart_add_item' product.id '00' %}">Agregar al carro</a>
+    			{% endif %}
+    <br><br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="fb-share-button" data-href="{% url 'product' product.slug product.id %}" data-layout="button_count"></div>
+</div>
+<div id="product-detail-b">
+	<p>
+    {{ product.longdescription|safe }}
+    </p>     
+</div>

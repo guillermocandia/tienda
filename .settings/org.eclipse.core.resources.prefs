@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/app/admin.py=utf-8
+encoding//src/app/forms.py=utf-8
+encoding//src/app/management/commands/cargar_categorias.py=utf-8
+encoding//src/app/management/commands/cargar_productos.py=utf-8
+encoding//src/app/management/commands/expirar_pedidos.py=utf-8
+encoding//src/app/migrations/0001_initial.py=utf-8
+encoding//src/app/models.py=utf-8
+encoding//src/solie/payments/models.py=utf-8
+encoding//src/solie/util/migrations/0003_slide_enlace.py=utf-8
+encoding//src/solie/util/models.py=utf-8

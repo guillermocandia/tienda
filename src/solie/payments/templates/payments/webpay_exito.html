@@ -1,0 +1,206 @@
+{% extends "payments/base.html" %}
+{% load staticfiles %}
+{% load tienda_filters %}
+{% load mathfilters %}
+{% block cart %}
+{% endblock cart %}
+{% block content %}
+{% if order %}
+	<div class="product-section">
+    	<div class="product-section-title">
+        	<span>INFORMACIÓN DE PAGO</span>
+      	</div>
+   	 	<table class="order">
+      		<tbody>
+      			<tr>
+      				<td>Nombre Comercio:</td>
+      				<td>TIENDA</td>
+      			</tr>
+      			<tr>
+      				<td>Sitio Web:</td>
+      				<td>http://www.ejemplo.com</td>
+      			</tr>
+      			<tr>
+      				<td>Número de Pedido:</td>
+      				<td>{{ order.id }}</td>
+      			</tr>
+      			<tr>
+      				<td>Método de pago:</td>
+      				<td>{% if order.payment_method %}{{ order.get_payment_method_display }}{% endif %}</td>
+      			</tr>
+      			<tr>
+      				<td>Número de tarjeta</td>
+      				<td>***************{{ payment.TBK_FINAL_NUMERO_TARJETA }}</td>
+      			</tr>
+      			<tr>
+      				<td>Tipo de pago:</td>
+      				<td>
+      				{% if payment.TBK_TIPO_PAGO == "VN" %}
+      				Crédito
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "VC" %}
+      				Crédito
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "SI" %}
+      				Crédito
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "CI" %}
+      				Crédito
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "VD" %}
+      				Redcompra
+      				{% endif %}
+      				</td>
+      			</tr>
+      			<tr>
+      				<td>Monto:</td>
+      				<td>{{ order.amount|pf }}</td>
+      			</tr>
+      			<tr>
+      				<td>Pagado:</td>
+      				<td>{% if order.paid %}{{ order.paid }}{% else %}No{% endif %}</td>
+      			</tr>
+      			<tr>
+      				<td>Código de autorización de la transacción:</td>
+      				<td>{{ payment.TBK_CODIGO_AUTORIZACION }}</td>
+      			</tr>
+      			<tr>
+      				<td>Tipo de transacción:</td>
+      				<td>Venta</td>
+      			</tr>
+      			<tr>
+      				<td>Tipo de Cuotas:</td>
+      				<td>
+      				{% if payment.TBK_TIPO_PAGO == "VN" %}
+      				Sin Cuotas
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "VC" %}
+      				Cuotas normales
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "SI" %}
+      				Sin interés
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "CI" %}
+      				Cuotas Comercio 
+      				{% endif %}
+      				{% if payment.TBK_TIPO_PAGO == "VD" %}
+      				Débito
+      				{% endif %}
+      				</td>
+      			</tr>
+      			<tr>
+      				<td>Número de Cuotas:</td>
+      				<td>
+      				{% if payment.TBK_NUMERO_CUOTAS = 0 %}
+      					00
+      				{% else %}
+      					{{ payment.TBK_NUMERO_CUOTAS }}
+      				{% endif %}
+      				</td>
+      			</tr>	
+      		</tbody>
+      	</table>
+      	<div class="info">
+  			<p>
+			<span>IMPORTANTE:</span> El despacho es por pagar al momento de recibir el producto (Turbus Cargo).
+			</p>
+  		</div>
+	</div>
+    <div class="product-section">
+    	<div class="product-section-title">
+        	<span>DATOS DE ENTREGA</span>
+      	</div>
+   	 	<table class="order">
+      		<tbody>
+      			<tr>
+      				<td>Nombre:</td>
+      				<td>{{ order.name }}</td>
+      			</tr>
+      			<tr>
+      				<td>Correo electrónico:</td>
+      				<td>{{ order.email }}</td>
+      			</tr>
+      			<tr>
+      				<td>Teléfono fijo</td>
+      				<td>{{ order.phone }}</td>
+      			</tr>
+      			<tr>
+      				<td>Teléfono móvil:</td>
+      				<td>{{ order.mobile }}</td>
+      			</tr>
+      			<tr>
+      				<td>Dirección de entrega:</td>
+      				<td>{{ order.address0 }}</td>
+      			</tr>
+      			<tr>
+      				<td>Comuna:</td>
+      				<td>{{ order.city }}</td>
+      			</tr>
+      			<tr>
+      				<td>Región:</td>
+      				<td>{{ order.region }}</td>
+      			</tr>
+      		</tbody>
+      	</table>
+	</div>
+	<div class="product-section">
+	 	<div class="product-section-title">
+        	<span>CARRO DE COMPRAS</span>
+      	</div>
+      	<table id="checkout-cart">
+      		<thead>
+      			<tr>
+      				<th>Producto</th>
+      				<th>Cantidad</th>
+      				<th>Precio Unitario</th>
+      				<th>Subtotal</th>
+      			</tr>
+      		</thead>
+      		<tfoot>
+      		<tr>
+      			<td colspan="3">Total:</td>
+      			<td>{{ order.cart.get_total|pf }}</td>
+      		<tr>
+      		</tfoot>
+      		<tbody>
+      			{% for item in order.cart.get_items %}
+      			<tr>
+      				<td>{{ item.product.name }}</td>
+      				<td>{{ item.quantity }}</td>
+      				{% if item.discount_price > 0 %}
+      				<td class="price-value-discount">{{ item.discount_price|pf }}</td>
+      				<td>{{ item.discount_price|mul:item.quantity|pf }}</td>
+      				{% else %}
+      				<td>{{ item.price|pf }}</td>
+      				<td>{{ item.price|mul:item.quantity|pf }}</td>
+      				{% endif %}
+      			</tr>
+      			{% endfor %}
+      	</tbody>
+      	</table>
+    </div>
+    <div class="product-section">
+	 	<div class="product-section-title">
+        	<span>POLITICAS DE DEVOLUCIÓN Y REEMBOLSOS.</span>
+      	</div>
+      	<div class="info">
+  			<p>
+  			<span>Si usted desea devolver algún articulo no comestible</span> este debe ser devuelto antes de 10 días desde su compra, en perfecto estado y en su envase original sellado, sin uso. Debe presentarse en una de nuestras tiendas junto con la boleta de compra.
+			</p>
+			<p>
+			<span>Si usted quiere rastrear el envío,</span> usted puede solicitar su numero de envío de  llamando o escribiendo a TIENDA en los datos que siguen a continuación.
+			</p>
+			<p>
+			Si usted tiene alguna duda o Consulta escríbanos a: <span>info@ejemplo.com</span> o llámenos al (032) 000 000 de lunes a viernes entre las 0:00 a 00:00 hrs.
+  			</p>
+  		</div>
+    </div>
+    {% else %}
+    <div class="product-section">
+	 	<div class="product-section-title">
+        	<span>Pedido inválido</span>
+      	</div>
+    </div>                  
+{% endif %}
+{% endblock content %}
+
